@@ -74,9 +74,14 @@ enddef
 
 
 # Sets some new values for global `win` dictionary
+# JE: Modified this to restrict search to one line if requested
 export def UpdateWinBounds()
     win.topline = line('w0')
     win.botline = line('w$')
+    if g:stargate_oneline ==# 1
+       win.topline = line('.')
+       win.botline = line('.')
+    endif
     win.lines_range = range(win.topline, win.botline)
 enddef
 
@@ -210,7 +215,7 @@ export def CreateLabelWindows()
     label_windows = {}
     const labels = LabelLists(g:stargate_chars, g:stargate_limit).labels->flattennew(1)
     for ds in labels
-        label_windows[ds] = popup_create(ds, { line: 0, col: 0, hidden: true, wrap: false, tabpage: -1 })
+        label_windows[ds] = popup_create(ds, { line: 0, col: 0, hidden: true, wrap: false })
     endfor
 enddef
 
